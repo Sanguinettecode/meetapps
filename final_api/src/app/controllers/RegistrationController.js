@@ -1,9 +1,9 @@
-import { isBefore, isEqual, startOfHour, format } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
+import { isBefore, isEqual, startOfHour } from 'date-fns';
 import Registration from '../models/Registration';
 import User from '../models/User';
 import Meetup from '../models/Meetup';
-import Mail from '../../lib/nodemailer';
+import Queue from '../../lib/queue';
+import RegistrationMain from '../jobs/RegistrationMail';
 
 class RegistrationController {
   async index(req, res) {
@@ -46,6 +46,10 @@ class RegistrationController {
       ],
     });
 
+    if (!meetup) {
+      return res.status(400).json({ error: 'meetup is not found' });
+    }
+
     if (meetup.user_id === req.userId) {
       return res.status(401).json({ error: 'you are the event organizer' });
     }
@@ -68,10 +72,6 @@ class RegistrationController {
       return res
         .status(401)
         .json({ error: 'you are already subscribed on meetup on same hour' });
-    }
-
-    if (!meetup) {
-      return res.status(400).json({ error: 'meetup is not found' });
     }
 
     if (isBefore(meetup.date, new Date())) {
@@ -104,19 +104,9 @@ class RegistrationController {
       ],
     });
     const user = await User.findByPk(req.userId);
-    await Mail.sendMail({
-      to: `${newregistration.meetup.user.name} <${newregistration.meetup.user.email}>`,
-      subject: `Nova inscrição para o evento ${newregistration.meetup.title}`,
-      template: 'registration',
-      context: {
-        user: newregistration.meetup.user.name,
-        evento: newregistration.meetup.title,
-        inscrito: user.name,
-        data: format(newregistration.meetup.date, "dd 'de' MMMM", {
-          locale: pt,
-        }),
-      },
-    });
+
+    await Queue.add(RegistrationMain.key, { newregistration, user });
+
     return res.json(newregistration);
   }
 }

@@ -1,4 +1,4 @@
 export default {
-  AUTH_SECRETE: 'fbd95c86dd20c3107da5f169c1057ece',
+  AUTH_SECRETE: process.env.APP_SECRET,
   AUTH_EXPIRESIN: '7d',
 };

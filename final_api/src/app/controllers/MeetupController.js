@@ -71,6 +71,12 @@ class MeetupController {
       return res.status(400).json({ error: ' validation failed' });
     }
     const { meetupId } = req.params;
+    const { date } = req.body;
+
+    const validDate = parseISO(date);
+    if (isBefore(validDate, new Date())) {
+      return res.status(401).json({ error: 'pass date are not permited' });
+    }
     const meetup = await Meetup.findByPk(meetupId, {
       include: [
         {
@@ -87,8 +93,6 @@ class MeetupController {
       }
 
       const editedmeetup = await meetup.update(req.body);
-
-      // Enviar emails para todos os inscritos no meetup
 
       res.json(editedmeetup);
     }
