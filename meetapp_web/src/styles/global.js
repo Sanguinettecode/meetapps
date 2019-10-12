@@ -17,8 +17,9 @@ body, input, button {
 html{
   min-height: 100%;
 }
+
 html, body, #root {
-  height: auto;
+  height: 100%;
 }
 
 button {

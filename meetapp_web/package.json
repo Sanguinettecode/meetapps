@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "@rocketseat/unform": "^1.6.1",
+    "axios": "^0.19.0",
     "history": "^4.10.1",
+    "immer": "^4.0.1",
     "polished": "^3.4.1",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
@@ -17,6 +19,7 @@
     "reactotron-redux": "^3.1.2",
     "reactotron-redux-saga": "^4.2.2",
     "redux": "^4.0.4",
+    "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.1",
     "styled-components": "^4.4.0",
     "yup": "^0.27.0"
