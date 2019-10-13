@@ -1,21 +1,28 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { MdEvent, MdPlace, MdEdit, MdDeleteForever } from 'react-icons/md';
 import { Container, MeetupDetails, Action } from './styles';
+import { deleteMeetup } from '../../store/modules/Meetup/actions';
 
 export default function Details() {
+  const dispatch = useDispatch();
+  const meetupData = useSelector(state => state.Meetup.meetup);
   return (
     <Container>
       <header>
-        <strong>Título do Meetup</strong>
+        <strong>{meetupData.title}</strong>
         <nav>
-          <Action to="/meetup" edit>
+          <Action to="/meetup">
             <MdEdit />
             <span>Editar</span>
           </Action>
-          <Action to="/meetup">
+          <button
+            type="button"
+            onClick={() => dispatch(deleteMeetup(meetupData.id))}
+          >
             <MdDeleteForever />
             <span>Cancelar</span>
-          </Action>
+          </button>
         </nav>
       </header>
       <MeetupDetails>
@@ -23,23 +30,16 @@ export default function Details() {
           src="https://camunda.com/img/events/meetup-example.jpg"
           alt="imagem meetup"
         />
-        <p>
-          Description Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-          Beatae, eaque sunt. Saepe quidem voluptatum sunt maxime laboriosam
-          modi minus, nam quia ad. Modi nam voluptates fugit maxime facere
-          dolorem at quia dolores repellat nihil expedita nostrum sint molestias
-          consequuntur, quo, nisi minus, culpa veniam laborum neque temporibus.
-          Eum, dolore alias.
-        </p>
+        <p>{meetupData.description}</p>
         <div>
           <div>
             <MdEvent color="#fff" />
-            <p> Data</p>
+            <p> {meetupData.date}</p>
           </div>
 
           <div>
             <MdPlace color="#fff" />
-            <p> Local</p>
+            <p> {meetupData.locale}</p>
           </div>
         </div>
       </MeetupDetails>

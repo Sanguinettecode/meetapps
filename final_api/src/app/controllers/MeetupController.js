@@ -6,10 +6,18 @@ import File from '../models/File';
 
 class MeetupController {
   async index(req, res) {
+    const { meetupId } = req.params;
+    const whereConditional = meetupId
+      ? {
+          user_id: req.userId,
+          id: meetupId,
+        }
+      : {
+          user_id: req.userId,
+        };
+
     const meetups = await Meetup.findAll({
-      where: {
-        user_id: req.userId,
-      },
+      where: whereConditional,
       attributes: ['id', 'title', 'description', 'date', 'locale'],
       include: [
         {

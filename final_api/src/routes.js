@@ -19,7 +19,7 @@ routes.get('/meetups', HomeController.index);
 routes.put('/users', UserController.update);
 routes.post('/files/:type', upload.single('banner'), FileController.store);
 
-routes.get('/meetup', MeetupController.index);
+routes.get('/meetup/:meetupId?', MeetupController.index);
 routes.post('/meetup', MeetupController.store);
 routes.put('/meetup/:meetupId', MeetupController.update);
 routes.delete('/meetup/:meetupId', MeetupController.delete);

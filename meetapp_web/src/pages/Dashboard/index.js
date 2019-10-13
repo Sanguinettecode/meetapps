@@ -1,28 +1,44 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Container, MeetupItem } from './styles';
+import api from '../../services/api';
+import {
+  addMeetupRequest,
+  addNewMeetup,
+} from '../../store/modules/Meetup/actions';
 
 export default function Dashboard() {
+  const [meetups, setMeetups] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    async function loadMeetups() {
+      const response = await api.get('/meetup');
+      setMeetups(response.data);
+    }
+    loadMeetups();
+  }, []);
+  function handleGetMeetup(id) {
+    dispatch(addMeetupRequest(id));
+  }
   return (
     <Container>
       <header>
         <strong>Meus Meetups</strong>
-        <Link to="/meetup">Novo meetup</Link>
+        <button type="button" onClick={() => dispatch(addNewMeetup())}>
+          Novo meetup
+        </button>
       </header>
       <ul>
-        <MeetupItem to="/details">
-          <strong>Meetup React js Recife</strong>
-          <p>25 de outubro de 2019</p>
-        </MeetupItem>
-        <MeetupItem to="/details">
-          <strong>Meetup React js Recife</strong>
-          <p>25 de outubro de 2019</p>
-        </MeetupItem>
-        <MeetupItem to="/details">
-          <strong>Meetup React js Recife</strong>
-          <p>25 de outubro de 2019</p>
-        </MeetupItem>
+        {meetups.map(meetup => (
+          <MeetupItem
+            type="button"
+            key={meetup.id}
+            onClick={() => handleGetMeetup(meetup.id)}
+          >
+            <strong>{meetup.title}</strong>
+            <p>{meetup.date}</p>
+          </MeetupItem>
+        ))}
       </ul>
     </Container>
   );

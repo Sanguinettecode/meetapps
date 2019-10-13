@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   width: 100%;
@@ -17,7 +16,7 @@ export const Container = styled.div`
       color: #fff;
     }
 
-    a {
+    button {
       border: none;
       border-radius: 4px;
       background: #f94d6a;
@@ -39,10 +38,11 @@ export const Container = styled.div`
     list-style: none;
   }
 `;
-export const MeetupItem = styled(Link)`
-  text-decoration: none;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+export const MeetupItem = styled.button`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px 0;
   background: rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
