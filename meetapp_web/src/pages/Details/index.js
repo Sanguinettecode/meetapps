@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MdEvent, MdPlace, MdEdit, MdDeleteForever } from 'react-icons/md';
 import { Container, MeetupDetails, Action } from './styles';
 import { deleteMeetup } from '../../store/modules/Meetup/actions';
+import coverDefault from '../../assets/cover_default.svg';
 
 export default function Details() {
   const dispatch = useDispatch();
@@ -26,15 +27,12 @@ export default function Details() {
         </nav>
       </header>
       <MeetupDetails>
-        <img
-          src="https://camunda.com/img/events/meetup-example.jpg"
-          alt="imagem meetup"
-        />
+        <img src={meetupData.banner.url || coverDefault} alt="imagem meetup" />
         <p>{meetupData.description}</p>
         <div>
           <div>
             <MdEvent color="#fff" />
-            <p> {meetupData.date}</p>
+            <p> {meetupData.formatedDate}</p>
           </div>
 
           <div>

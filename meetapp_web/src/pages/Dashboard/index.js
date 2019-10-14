@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { format, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt-BR';
 import { useDispatch } from 'react-redux';
 import { Container, MeetupItem } from './styles';
 import api from '../../services/api';
@@ -13,7 +15,20 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadMeetups() {
       const response = await api.get('/meetup');
-      setMeetups(response.data);
+      const data = response.data.map(meetup => {
+        const formatedDate = format(
+          parseISO(meetup.date),
+          "dd 'de' MMMM 'de' yyyy",
+          {
+            locale: pt,
+          }
+        );
+        return {
+          ...meetup,
+          formatedDate,
+        };
+      });
+      setMeetups(data);
     }
     loadMeetups();
   }, []);
@@ -36,7 +51,7 @@ export default function Dashboard() {
             onClick={() => handleGetMeetup(meetup.id)}
           >
             <strong>{meetup.title}</strong>
-            <p>{meetup.date}</p>
+            <p>{meetup.formatedDate}</p>
           </MeetupItem>
         ))}
       </ul>

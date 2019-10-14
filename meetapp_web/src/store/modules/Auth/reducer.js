@@ -15,17 +15,17 @@ export default function auth(state = INITIAL_STATE, action) {
       case '@auth/SIGNIN_SUCCESS': {
         draft.token = action.payload.token;
         draft.signed = true;
-        draft.loadign = false;
+        draft.loading = false;
         break;
       }
       case '@auth/SIGNOUT': {
         draft.token = null;
         draft.signed = false;
-        draft.loadign = false;
+        draft.loading = false;
         break;
       }
       case '@auth/AUTH_FAILURE': {
-        draft.loadign = false;
+        draft.loading = false;
         break;
       }
       default:

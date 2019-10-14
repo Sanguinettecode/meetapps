@@ -1,4 +1,5 @@
 import { all, put, call, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import api from '../../../services/api';
 import { authSuccess, authFailure } from './actions';
 import history from '../../../services/history';
@@ -7,13 +8,13 @@ export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
     const response = yield call(api.post, '/session', { email, password });
-
     const { token, user } = response.data;
     api.defaults.headers.Authorization = `Bearer ${token}`;
     yield put(authSuccess(token, user));
     history.push('/dashboard');
   } catch (error) {
-    console.log('erro na autenticação');
+    toast.error('Erro ao logar, confira seus dados e tente novamente');
+    yield put(authFailure());
   }
 }
 export function* signUp({ payload }) {
@@ -22,7 +23,7 @@ export function* signUp({ payload }) {
     yield call(api.post, '/users', { name, email, password });
     history.push('/');
   } catch (error) {
-    console.log('failure signup');
+    toast.error('Erro ao cadastrar, confira seus dados e tente novamente');
     yield put(authFailure());
   }
 }

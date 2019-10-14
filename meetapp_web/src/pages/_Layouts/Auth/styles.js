@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 export const Wrapper = styled.div`
-  min-height: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 100px auto;
 `;
 
 export const Content = styled.div`

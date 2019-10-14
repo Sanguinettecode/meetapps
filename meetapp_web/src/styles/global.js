@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default createGlobalStyle`
 
@@ -14,14 +15,14 @@ export default createGlobalStyle`
 body, input, button {
   font: 14px Roboto, sans-serif;
 }
-html{
-  min-height: 100%;
-}
 
-html, body, #root {
-  height: 100%;
+html,body,#root {
+height: auto;
+ min-height: 100%;
 }
-
+#root>div{
+  height: 100%
+}
 button {
   cursor: pointer;
 }

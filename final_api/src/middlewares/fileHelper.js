@@ -8,7 +8,7 @@ const compressImage = (file, size) => {
     .resize(size)
     .toFormat('webp')
     .webp({
-      quality: 80,
+      quality: 100,
     })
     .toBuffer()
     .then(data => {

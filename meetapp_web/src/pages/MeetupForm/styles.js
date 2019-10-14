@@ -29,15 +29,21 @@ export const Container = styled.div`
     }
 
     textarea {
+      font-family: Roboto;
       border-radius: 4px;
       border: none;
       padding: 20px;
-      color: rgba(255, 255, 255, 0.5);
+      color: #fff;
       background: rgba(0, 0, 0, 0.2) !important;
       margin-bottom: 10px;
       font-size: 16px;
+
+      &::placeholder {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+      }
     }
-    div {
+    div:last-child {
       display: flex;
       justify-content: flex-end;
       button {

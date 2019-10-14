@@ -18,6 +18,7 @@ class MeetupController {
 
     const meetups = await Meetup.findAll({
       where: whereConditional,
+      order: [['date', 'ASC']],
       attributes: ['id', 'title', 'description', 'date', 'locale'],
       include: [
         {
