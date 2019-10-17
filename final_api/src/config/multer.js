@@ -6,14 +6,7 @@ import { resolve, extname } from 'path';
 export default {
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      const path = resolve(
-        __dirname,
-        '..',
-        '..',
-        'temp',
-        'uploads',
-        `${req.params.type}`
-      );
+      const path = resolve(__dirname, '..', '..', 'temp', 'uploads');
       fs.mkdirsSync(path);
       cb(null, path);
     },

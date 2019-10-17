@@ -2,6 +2,7 @@ import { startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 
 class HommeController {
   async index(req, res) {
@@ -29,6 +30,11 @@ class HommeController {
           model: User,
           as: 'user',
           attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['id', 'name', 'path', 'url'],
         },
       ],
     });
