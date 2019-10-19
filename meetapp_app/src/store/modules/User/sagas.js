@@ -10,13 +10,17 @@ export function* updateUser({payload}) {
     const profile = {
       name,
       email,
-      ...(rest.oldpassword ? rest : {}),
+      ...(rest.oldPassword ? rest : {}),
     };
 
     const response = yield call(api.put, '/users', profile);
 
     yield put(updateUserSuccess(response.data));
+    Alert.alert('Usuário atualizado com sucesso');
   } catch (err) {
+    Alert.alert(
+      'Problemas ao atualizar o perfil, confira os dados e tente novamente',
+    );
     yield put(updateUserFailure());
   }
 }

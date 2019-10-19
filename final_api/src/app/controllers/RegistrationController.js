@@ -1,6 +1,7 @@
 import { isBefore, isEqual, startOfHour } from 'date-fns';
 import Registration from '../models/Registration';
 import User from '../models/User';
+import File from '../models/File';
 import Meetup from '../models/Meetup';
 import Queue from '../../lib/queue';
 import RegistrationMain from '../jobs/RegistrationMail';
@@ -14,6 +15,18 @@ class RegistrationController {
           model: Meetup,
           as: 'meetup',
           attributes: ['id', 'title', 'description', 'locale', 'date'],
+          include: [
+            {
+              model: User,
+              as: 'user',
+              attributes: ['id', 'name', 'email'],
+            },
+            {
+              model: File,
+              as: 'banner',
+              attributes: ['id', 'name', 'path', 'url'],
+            },
+          ],
         },
       ],
     });

@@ -1,4 +1,4 @@
-import { startOfDay, endOfDay } from 'date-fns';
+import { startOfDay, endOfDay, parseISO } from 'date-fns';
 import { Op } from 'sequelize';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
@@ -14,7 +14,7 @@ class HommeController {
       return res.status(400).json({ error: 'invalid date' });
     }
 
-    const searchDate = Number(date);
+    const searchDate = parseISO(date);
 
     const meetups = await Meetup.findAll({
       offset,

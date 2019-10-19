@@ -14,7 +14,7 @@ import {
 } from './styles';
 import cover from '~/assets/cover.png';
 
-export default function Meetup({data}) {
+export default function Meetup({data, register, dashboard, cancel}) {
   return (
     <Container>
       <Banner
@@ -28,7 +28,7 @@ export default function Meetup({data}) {
         <ContainerInfo>
           <Info>
             <Icon name="event" size={14} color="#f94d6a" />
-            <InfoText>{data.date}</InfoText>
+            <InfoText>{data.datePtBR}</InfoText>
           </Info>
           <Info>
             <Icon name="place" size={14} color="#f94d6a" />
@@ -39,8 +39,10 @@ export default function Meetup({data}) {
             <InfoText>Organizador: {data.user.name}</InfoText>
           </Info>
         </ContainerInfo>
-        <ButtonSubscribe onPress={() => {}}>
-          <ButtonText>Realizar inscrição</ButtonText>
+        <ButtonSubscribe onPress={dashboard ? register : cancel}>
+          <ButtonText>
+            {dashboard ? 'Realizar inscrição' : 'Cancelar incrição'}
+          </ButtonText>
         </ButtonSubscribe>
       </Content>
     </Container>
