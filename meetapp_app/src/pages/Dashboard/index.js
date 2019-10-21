@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect, useMemo} from 'react';
 import {format, addDays, subDays, parseISO} from 'date-fns';
+import PropTypes from 'prop-types';
 import {withNavigationFocus} from 'react-navigation';
 import {Alert} from 'react-native';
 import pt from 'date-fns/locale/pt-BR';
@@ -99,3 +100,6 @@ Dashboard.navigationOptions = {
 };
 
 export default withNavigationFocus(Dashboard);
+Dashboard.propTypes = {
+  isFocused: PropTypes.bool.isRequired,
+};

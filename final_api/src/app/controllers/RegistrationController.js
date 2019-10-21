@@ -9,7 +9,7 @@ import RegistrationMain from '../jobs/RegistrationMail';
 class RegistrationController {
   async index(req, res) {
     const meetups = await Registration.findAll({
-      where: { user_id: req.userId },
+      where: { user_id: req.userId, canceled_at: null },
       include: [
         {
           model: Meetup,
@@ -49,7 +49,7 @@ class RegistrationController {
     });
 
     const userRegistrations = await Registration.findAll({
-      where: { user_id: req.userId },
+      where: { user_id: req.userId, canceled_at: null },
       include: [
         {
           model: Meetup,
@@ -69,7 +69,8 @@ class RegistrationController {
 
     if (
       meetup.registrations.find(
-        registration => registration.user_id === req.userId
+        registration =>
+          registration.user_id === req.userId && !registration.canceled_at
       )
     ) {
       return res
@@ -121,6 +122,36 @@ class RegistrationController {
     await Queue.add(RegistrationMain.key, { newregistration, user });
 
     return res.json(newregistration);
+  }
+
+  async delete(req, res) {
+    const registration = await Registration.findByPk(req.params.id, {
+      include: [
+        {
+          model: Meetup,
+          as: 'meetup',
+          attributes: ['id', 'date'],
+        },
+      ],
+    });
+
+    if (!registration) {
+      return res.status(400).json({
+        error: 'Registration is not found',
+      });
+    }
+
+    // Verify if user is requester of the appointment
+    if (registration && registration.user_id !== req.userId) {
+      return res.status(401).json({
+        error: 'Only the requester is allow to delete registration',
+      });
+    }
+
+    registration.canceled_at = new Date();
+    await registration.save();
+
+    return res.json(registration);
   }
 }
 

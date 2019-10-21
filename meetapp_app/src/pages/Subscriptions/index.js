@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {format, parseISO} from 'date-fns';
 import {withNavigationFocus} from 'react-navigation';
 import {Alert} from 'react-native';
@@ -18,9 +19,16 @@ function Subscriptions({isFocused}) {
     const response = await api.get('/registration');
     const data = response.data.map(meetup => ({
       ...meetup,
-      datePtBR: format(parseISO(meetup.meetup.date), "dd 'de' MMMM 'de' yyyy", {
-        locale: pt,
-      }),
+      meetup: {
+        ...meetup.meetup,
+        datePtBR: format(
+          parseISO(meetup.meetup.date),
+          "dd 'de' MMMM 'de' yyyy",
+          {
+            locale: pt,
+          },
+        ),
+      },
     }));
 
     setSubscription(data);
@@ -32,8 +40,14 @@ function Subscriptions({isFocused}) {
     }
   }, [isFocused]);
 
-  function handlerCancel(id) {
-    Alert.alert(`meetup ${id} cancelado`);
+  async function handlerCancel(id) {
+    try {
+      await api.delete(`/registration/${id}`);
+      Alert.alert('Cancelamento realizado com sucesso');
+      loadSubscriptions();
+    } catch (error) {
+      Alert.alert(error.response.data.error);
+    }
   }
   return (
     <Background>
@@ -46,7 +60,7 @@ function Subscriptions({isFocused}) {
             renderItem={({item}) => (
               <Meetup
                 data={item.meetup}
-                cancel={() => handlerCancel(item.meetup.id)}
+                cancel={() => handlerCancel(item.id)}
               />
             )}
           />
@@ -66,3 +80,7 @@ Subscriptions.navigationOptions = {
 };
 
 export default withNavigationFocus(Subscriptions);
+
+Subscriptions.propTypes = {
+  isFocused: PropTypes.bool.isRequired,
+};

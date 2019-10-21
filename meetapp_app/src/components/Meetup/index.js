@@ -18,9 +18,13 @@ export default function Meetup({data, register, dashboard, cancel}) {
   return (
     <Container>
       <Banner
-        source={{
-          uri: data.banner ? data.banner.url : cover,
-        }}
+        source={
+          data.banner
+            ? {
+                uri: data.banner.url,
+              }
+            : cover
+        }
       />
       <Content>
         <Title>{data.title}</Title>
@@ -48,3 +52,16 @@ export default function Meetup({data, register, dashboard, cancel}) {
     </Container>
   );
 }
+
+Meetup.propTypes = {
+  data: PropTypes.oneOfType(PropTypes.array, PropTypes.object),
+  register: PropTypes.func,
+  dashboard: PropTypes.bool,
+  cancel: PropTypes.func,
+};
+Meetup.defaultProps = {
+  data: {},
+  dashboard: false,
+  register: null,
+  cancel: null,
+};

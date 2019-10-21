@@ -11,6 +11,7 @@ export function* signIn({payload}) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
     yield put(authSuccess(token, user));
   } catch (error) {
+    Alert.alert('Falha na autenticação, verifique seus dados');
     yield put(authFailure());
   }
 }
@@ -18,8 +19,10 @@ export function* signUp({payload}) {
   try {
     const {name, email, password} = payload;
     yield call(api.post, '/users', {name, email, password});
+    Alert.alert('Cadastro realizado com sucesso!');
   } catch (error) {
     yield put(authFailure());
+    Alert.alert('Falha no cadastro, verifique seus dados');
   }
 }
 export function setToken({payload}) {
