@@ -68,8 +68,8 @@ class UserController {
       if (oldPassword && !(await user.checkPass(oldPassword))) {
         return res.status(401).json({ error: 'this password does not match' });
       }
-      const { id, name, password } = await user.update(req.body);
-      return res.json({ id, name, email, password });
+      const { id, name } = await user.update(req.body);
+      return res.json({ id, name, email });
     }
     return res.status(400).json({ error: 'User is not found' });
   }

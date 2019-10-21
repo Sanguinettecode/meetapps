@@ -31,12 +31,13 @@ export function* createMeetup({ payload }) {
     const response = yield call(api.post, '/meetup', {
       title,
       description,
-      date: `${date}T00:00:00-03:00`,
+      date,
       locale,
       banner_id,
     });
     yield put(createMeetupSuccess(response.data));
     history.push('/dashboard');
+    toast.success('Meetuap criado com sucesso!');
   } catch (error) {
     toast.error(
       'Erro ao cadastrar meetup, verifique os dados e tente novamente'
@@ -51,7 +52,7 @@ export function* updateMeetup({ payload }) {
     yield call(api.put, `/meetup/${id}`, {
       title,
       description,
-      date: `${date}T00:00:00-03:00`,
+      date,
       locale,
       banner_id,
     });
@@ -70,6 +71,7 @@ export function* deleteMeetup({ payload }) {
     yield call(api.delete, `/meetup/${id}`);
 
     history.push('/dashboard');
+    toast.success('Meetup Cancelado com sucesso');
   } catch (error) {
     toast.error('Não é possível deletar este meetup');
   }

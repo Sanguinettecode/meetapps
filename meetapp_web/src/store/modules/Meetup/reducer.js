@@ -10,17 +10,7 @@ export default function meetup(state = INITIAL_STATE, action) {
     switch (action.type) {
       case '@meetup/ADD_SUCCESS': {
         draft.meetup = null;
-        const Meetup = {
-          id: action.payload.meetup.id,
-          title: action.payload.meetup.title,
-          description: action.payload.meetup.description,
-          locale: action.payload.meetup.locale,
-          date: format(parseISO(action.payload.meetup.date), 'yyyy-MM-dd'),
-          formatedDate: action.payload.meetup.formatedDate,
-          banner: { ...action.payload.meetup.banner },
-          user: { ...action.payload.meetup.user },
-        };
-        draft.meetup = Meetup;
+        draft.meetup = action.payload.meetup;
         break;
       }
       case '@meetup/ADD_NEW_REQUEST': {

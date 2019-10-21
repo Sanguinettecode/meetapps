@@ -12,6 +12,7 @@ export const Container = styled.div`
   form {
     display: flex;
     flex-direction: column;
+
     input {
       height: 50px;
       border-radius: 4px;
@@ -43,7 +44,7 @@ export const Container = styled.div`
         color: rgba(255, 255, 255, 0.5);
       }
     }
-    div:last-child {
+    div.buttonSubmit {
       display: flex;
       justify-content: flex-end;
       button {

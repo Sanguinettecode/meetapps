@@ -22,6 +22,7 @@ export function* signUp({ payload }) {
     const { name, email, password } = payload;
     yield call(api.post, '/users', { name, email, password });
     history.push('/');
+    toast.error('Cadastro realizado com sucesso!');
   } catch (error) {
     toast.error('Erro ao cadastrar, confira seus dados e tente novamente');
     yield put(authFailure());

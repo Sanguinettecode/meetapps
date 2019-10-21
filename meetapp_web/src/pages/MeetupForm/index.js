@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import BannerInput from './BannerInput';
+import DatePicker from './DatePicker/index';
 import { Container } from './styles';
 import {
   createMeetupRequest,
   updateMeetupRequest,
 } from '../../store/modules/Meetup/actions';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function MeetupForm() {
   const dispatch = useDispatch();
@@ -34,9 +36,9 @@ export default function MeetupForm() {
         <Input name="id" style={{ display: 'none' }} />
         <Input name="title" placeholder="Título do Meetup" />
         <Input name="description" placeholder="Descrição completa" multiline />
-        <Input name="date" type="date" placeholder="data do meetup" />
+        <DatePicker name="date" placeholder="data do meetup" />
         <Input name="locale" placeholder="Localização" />
-        <div>
+        <div className="buttonSubmit">
           <button type="submit">
             <MdAddCircleOutline />
             <span>{meetupData ? 'Editar meetup' : 'Salvar meetup'}</span>
